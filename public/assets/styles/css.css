@@ -5,13 +5,15 @@ body {
     font-weight: bold;
 }
 
-#messages {
+#messages__my {
     border: 2px solid white;
     height: 400px;
     width: 300px;
     overflow: auto;
     padding-left: 15px;
     box-shadow: 10px 10px 10px rgb(17, 19, 44);
+    color: black;
+    padding-bottom: 10px;
 }
 
 ::-webkit-scrollbar {
@@ -31,4 +33,28 @@ body {
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
     background: #555; 
+}
+
+.msg_sent{
+    padding-bottom:5px !important;
+    margin-right:5px;
+    margin-top: 5px;
+}
+
+.messages{
+  background: white;
+  padding: 10px;
+  border-radius: 2px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+  max-width:100%;
+}
+
+.messages > p {
+    font-size: 13px;
+    margin: 0 0 0.2rem 0;
+}
+
+.messages > time {
+    font-size: 11px;
+    color: #ccc;
 }
