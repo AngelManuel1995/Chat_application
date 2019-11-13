@@ -7,19 +7,15 @@ const app = express()
 const server = http.createServer(app)
 const io = socketio(server)
 
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3000
 const publicFolder = path.join(__dirname, '..', 'public')
 
 app.use(express.static(publicFolder))
-let count = 0
-
 io.on('connection', (socket) => {
 
-    socket.on('increment', () => {
-        count = count + 1
-        socket.emit('countUpdated', count)
-    })
-
+    setInterval(() => {
+        socket.emit('enterChat', 'Welcome to this ARUS chat')
+    },2000)
 })
 
 server.listen(PORT,() => {

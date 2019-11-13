@@ -1,16 +1,13 @@
 const socket = io()
 
-socket.on('countUpdated', (count) => {
-    console.log(count)
-})
-
-socket.on('messageGotten', (message) => {
-    console.log(message)
-    document.querySelector('#message').textContent = message
-})
-
-document.querySelector('#addCounterBtn').addEventListener('click', () => {
-    socket.emit('increment', () => {
-        console.log('Increment')
+let messages = []
+socket.on('enterChat', (messageEmmited) => {
+    messages.push(messageEmmited)
+    document.querySelector('#messages').innerHTML = ''
+    messages.forEach((message, index) => {
+        let messageP = document.createElement('P')
+        messageP.textContent = `${index + 1}. ${message}`
+        document.querySelector('#messages').append(messageP)
     })
+
 })
