@@ -7,10 +7,16 @@ socket.on('message', (message) => {
     messages.forEach((message) => {
         let messageP = document.createElement('P')
         let messageDiv = document.createElement('DIV')
+        let userNameSPAN = document.createElement('SPAN')
+        let messageSPAN = document.createElement('SPAN')
+        userNameSPAN.classList.add('userName')
         messageDiv.classList.add('msg_sent')
         messageDiv.classList.add('messages')
+        userNameSPAN.textContent = `${message.split(':')[0]}:`
+        messageSPAN.textContent = `${message.split(':')[1]}`
+        messageP.append(userNameSPAN)
+        messageP.append(messageSPAN)
         messageDiv.append(messageP)
-        messageP.textContent = `${message}`
         document.querySelector('#messages__my').append(messageDiv)
     })
 
@@ -26,6 +32,7 @@ document.querySelector('#testForm').addEventListener('submit', (e) => {
         messageDiv.classList.add('messages')
         messageDiv.append(messageP)
         messageP.textContent = 'Admin says: Please provide a user name'
+        messageP.classList.add('userName')
         document.querySelector('#messages__my').append(messageDiv)
         return
     }
@@ -37,6 +44,7 @@ document.querySelector('#testForm').addEventListener('submit', (e) => {
         messageDiv.classList.add('messages')
         messageDiv.append(messageP)
         messageP.textContent = 'Admin says: Please provide a message'
+        messageP.classList.add('userName')
         document.querySelector('#messages__my').append(messageDiv)
         return
     }
