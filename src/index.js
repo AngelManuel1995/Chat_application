@@ -13,9 +13,10 @@ const publicFolder = path.join(__dirname, '..', 'public')
 app.use(express.static(publicFolder))
 io.on('connection', (socket) => {
 
-    setInterval(() => {
-        socket.emit('enterChat', 'Welcome to this ARUS chat')
-    },2000)
+    socket.on('sendMessage', (message) => {
+        io.emit('message', message)
+    })
+
 })
 
 server.listen(PORT,() => {
