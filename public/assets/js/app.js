@@ -23,6 +23,21 @@ socket.on('message', (message) => {
 
 })
 
+document.querySelector('#btnSendLocation').addEventListener('click', () => {
+    if(!navigator.geolocation){
+        return alert('Your browser does not support Geolacation')
+    }
+
+    navigator.geolocation.getCurrentPosition((position) => {
+        socket.emit('sendGeolocation', {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+        }, () => {
+            console.log('Position shered successfuly')
+        })
+    })
+})
+
 // document.querySelector('#testForm').addEventListener('submit', (e) => {
 //     e.preventDefault()
 //     if(document.querySelector('#userName').value === ''){
@@ -52,7 +67,15 @@ socket.on('message', (message) => {
 //     const message = e.target.elements.message.value
 //     socket.emit('sendMessage', `${document.querySelector('#userName').value} says: ${message}`)
 //     e.target.elements.message.value = ''
-
 // })
 
-
+document.querySelector('#testForm').addEventListener('submit', (e) => {
+    e.preventDefault()
+    const message = e.target.elements.message.value
+    socket.emit('sendMessage', message, (error) => {
+        if(error){
+            console.log('The message could not be delivered')
+        }
+        console.log('Message delivered')
+    })
+})
