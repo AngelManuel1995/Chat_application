@@ -1,39 +1,47 @@
 const socket = io()
 
 let messages = []
-socket.on('message', (message) => {
-    console.log('message from server', message)
-    // messages.push(message)
-    // document.querySelector('#messages__my').innerHTML = ''
-    // messages.forEach((message) => {
-    //     let messageP = document.createElement('P')
-    //     let messageDiv = document.createElement('DIV')
-    //     let userNameSPAN = document.createElement('SPAN')
-    //     let messageSPAN = document.createElement('SPAN')
-    //     userNameSPAN.classList.add('userName')
-    //     messageDiv.classList.add('msg_sent')
-    //     messageDiv.classList.add('messages')
-    //     userNameSPAN.textContent = `${message.split(':')[0]}:`
-    //     messageSPAN.textContent = `${message.split(':')[1]}`
-    //     messageP.append(userNameSPAN)
-    //     messageP.append(messageSPAN)
-    //     messageDiv.append(messageP)
-    //     document.querySelector('#messages__my').append(messageDiv)
-    // })
 
+const $messageForm = document.querySelector('#testForm')
+const $messageFormInput = $messageForm.querySelector('input')
+const $messageFormButton = document.querySelector('#btnFormMessage')
+const $geolocationButtton = document.querySelector('#btnSendLocation')
+const $messages = document.querySelector('#messages')
+
+//Templates
+
+const messageTemplate = document.querySelector('#message-template').innerHTML
+const messageTemplateLocation = document.querySelector('#message-template-location').innerHTML
+
+socket.on('message', (message) => {
+    const html = Mustache.render(messageTemplate, {
+        message
+    })
+
+    $messages.insertAdjacentHTML('beforeend', html)
+})
+
+socket.on('messageLocation', (link) => {
+    console.log(link)
+    const html = Mustache.render(messageTemplateLocation, {
+        link
+    })
+
+    $messages.insertAdjacentHTML('beforeend', html)
 })
 
 document.querySelector('#btnSendLocation').addEventListener('click', () => {
     if(!navigator.geolocation){
         return alert('Your browser does not support Geolacation')
     }
-
+    $geolocationButtton.setAttribute('disabled', 'disabled')
     navigator.geolocation.getCurrentPosition((position) => {
         socket.emit('sendGeolocation', {
             latitude: position.coords.latitude,
             longitude: position.coords.longitude
         }, () => {
-            console.log('Position shered successfuly')
+            $geolocationButtton.removeAttribute('disabled')
+            console.log('Location shered successfully')
         })
     })
 })
@@ -69,13 +77,21 @@ document.querySelector('#btnSendLocation').addEventListener('click', () => {
 //     e.target.elements.message.value = ''
 // })
 
-document.querySelector('#testForm').addEventListener('submit', (e) => {
+$messageForm.addEventListener('submit', (e) => {
     e.preventDefault()
     const message = e.target.elements.message.value
+
+    $messageFormButton.setAttribute('disabled', 'disabled')
+
+    
     socket.emit('sendMessage', message, (error) => {
+        //$messageFormButton.removeAttribute('disabled')
+        $messageFormButton.removeAttribute('disabled')
+        $messageFormInput.value = ''
+        $messageFormInput.focus()
         if(error){
             console.log('The message could not be delivered')
         }
-        console.log('Message delivered')
+        console.log('Message delivered', message)
     })
 })

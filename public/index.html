@@ -37,6 +37,12 @@
                 <input type="text" id="userName" name="userName" class="form-control" placeholder="Write your user name">
             </div>
         </div> -->
+    
+        <div id="messages" class="message_container">
+
+        </div>
+
+
         <div class="row" style="color: white; margin-top: 10px;">
             <div class="col-md-2" style="border: 2px solid white; padding: 20px; margin: 0 auto; border-radius: 10px;">
                 <form id="testForm">
@@ -45,7 +51,7 @@
                         <input type="text" id="message" name="message" class="form-control" placeholder="Write your message">
                     </div>
                     <div class="form-group">
-                        <input type="submit" value="send" class="btn btn-sm btn-success btn-block">
+                        <input type="submit" id="btnFormMessage" value="send" class="btn btn-sm btn-success btn-block">
                     </div>
                 </form>
                 <input type="button" id="btnSendLocation" value="send location" class="btn btn-sm btn-success btn-block">
@@ -57,6 +63,22 @@
 
     </div> -->
     <p id="welcomeMessage"></p>
+
+    <script id="message-template" type="text/html">
+        <div class="messages">
+            <p>{{message}}</p>
+        </div>
+    </script>
+
+    <script id="message-template-location" type="text/html">
+        <div class="messages">
+            <p><a target="_blank" href="{{link}}" >Click to see my location</a> </p>
+        </div>
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/3.0.1/mustache.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.6.0/qs.min.js"></script>
     <script src="/socket.io/socket.io.js"></script>
     <script src="./assets/js/app.js"></script>
 </body>

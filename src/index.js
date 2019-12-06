@@ -13,7 +13,6 @@ const publicFolder = path.join(__dirname, '..', 'public')
 
 app.use(express.static(publicFolder))
 
-const messageio =  'message'
 io.on('connection', (socket) => {
 
     socket.on('sendMessage', (message, callback) => {
@@ -21,18 +20,21 @@ io.on('connection', (socket) => {
         if(filter.isProfane(message)){
             return callback('Error to deliveried message')
         }
-        io.emit(messageio, message)
+        io.emit('message', message)
+        callback()
     })
 
     socket.on('sendGeolocation', (position, callback) => {
-        socket.broadcast.emit(messageio, position)
+
+        socket.broadcast.emit('messageLocation', `https://google.com/maps?q=${position.latitude},${position.longitude}`)
         callback()
+ 
     })
 
     socket.broadcast.emit('message', 'A new user has joined!')
 
     socket.on('disconnect', () => {
-        io.emit(messageio, 'A user has left!')
+        io.emit('message', 'A user has left!')
     })
 
 })

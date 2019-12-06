@@ -47,6 +47,7 @@ body {
   border-radius: 2px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
   max-width:100%;
+  margin-top: 0.2em;
 }
 
 .messages > p {
@@ -62,4 +63,7 @@ body {
 .userName {
     color: darkred;
     font-weight: bold;
+}
+.message_container{
+    width: 20%;
 }
